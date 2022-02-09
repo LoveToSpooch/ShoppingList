@@ -1,8 +1,8 @@
 package cheers.lovetospooch.shoppinglist.domain
 
-class AddToShopItemUseCase {
+class AddToShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
-    fun addToShopList(shopItem: ShopItem) {
-        TODO()
+    fun addToShopItem(shopItem: ShopItem) {
+        shopListRepository.addToShopItem(shopItem)
     }
 }

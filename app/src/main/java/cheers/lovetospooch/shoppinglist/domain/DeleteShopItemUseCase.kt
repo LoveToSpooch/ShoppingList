@@ -1,8 +1,8 @@
 package cheers.lovetospooch.shoppinglist.domain
 
-class DeleteShopItemUseCase {
+class DeleteShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
-    fun deleteFromShopList(shopItem: ShopItem) {
-        TODO()
+    fun deleteShopItem(shopItem: ShopItem) {
+        shopListRepository.deleteShopItem(shopItem)
     }
 }
