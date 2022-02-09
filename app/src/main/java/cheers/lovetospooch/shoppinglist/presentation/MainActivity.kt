@@ -1,7 +1,8 @@
-package cheers.lovetospooch.shoppinglist
+package cheers.lovetospooch.shoppinglist.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import cheers.lovetospooch.shoppinglist.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
