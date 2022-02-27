@@ -3,4 +3,5 @@
     <string name="edit_text_name">Name:</string>
     <string name="edit_text_count">Count:</string>
     <string name="btn_save_text">Save</string>
+    <string name="error_message">Error!</string>
 </resources>
