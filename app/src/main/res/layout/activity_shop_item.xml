@@ -9,7 +9,7 @@
     tools:context=".presentation.ShopItemActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/title_name"
+        android:id="@+id/til_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/title_count"
+        app:layout_constraintBottom_toTopOf="@+id/til_count"
         app:layout_constraintVertical_chainStyle="packed"
         tools:ignore="MissingConstraints">
 
@@ -32,7 +32,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/title_count"
+        android:id="@+id/til_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -41,7 +41,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_name"
+        app:layout_constraintTop_toBottomOf="@+id/til_name"
         app:layout_constraintVertical_chainStyle="packed"
         tools:ignore="MissingConstraints">
 

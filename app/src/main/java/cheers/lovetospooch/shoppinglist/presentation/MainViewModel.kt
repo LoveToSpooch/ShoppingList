@@ -1,6 +1,5 @@
 package cheers.lovetospooch.shoppinglist.presentation
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import cheers.lovetospooch.shoppinglist.data.ShopListRepositoryImpl
 import cheers.lovetospooch.shoppinglist.domain.DeleteShopItemUseCase

@@ -1,14 +1,13 @@
 package cheers.lovetospooch.shoppinglist.presentation
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import cheers.lovetospooch.shoppinglist.R
-import cheers.lovetospooch.shoppinglist.domain.ShopItem
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var shopListAdapter: ShopListAdapter
 
+    @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,6 +23,12 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
+        }
+
+        val buttonAddItem = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        buttonAddItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
         }
     }
 
@@ -32,8 +38,14 @@ class MainActivity : AppCompatActivity() {
         shopListAdapter = ShopListAdapter()
         shopList.adapter = shopListAdapter
 
-        shopList.recycledViewPool.setMaxRecycledViews(ShopListAdapter.STATE_ENABLE, ShopListAdapter.MAX_POOL_SIZE)
-        shopList.recycledViewPool.setMaxRecycledViews(ShopListAdapter.STATE_DISABLE  , ShopListAdapter.MAX_POOL_SIZE)
+        shopList.recycledViewPool.setMaxRecycledViews(
+            ShopListAdapter.STATE_ENABLE,
+            ShopListAdapter.MAX_POOL_SIZE
+        )
+        shopList.recycledViewPool.setMaxRecycledViews(
+            ShopListAdapter.STATE_DISABLE,
+            ShopListAdapter.MAX_POOL_SIZE
+        )
 
         setupLongClickListener()
 
@@ -75,10 +87,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         shopListAdapter.onShopClickListener = {
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
-
-
 
 
 }
