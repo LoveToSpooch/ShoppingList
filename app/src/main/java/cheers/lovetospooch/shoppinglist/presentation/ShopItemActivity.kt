@@ -16,13 +16,7 @@ import java.lang.RuntimeException
 
 class ShopItemActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: ShopItemViewModel
 
-    private lateinit var tilName: TextInputLayout
-    private lateinit var tilCount: TextInputLayout
-    private lateinit var etName: EditText
-    private lateinit var etCount: EditText
-    private lateinit var buttonSave: Button
     private var screenMode = MODE_UNKNOWN
     private var shopItemId = ShopItem.UNDEFINED_ID
 
@@ -30,68 +24,17 @@ class ShopItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
         parseIntent()
-        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
-        initViews()
-        addChangeTextListeners()
-        launchRightMode()
-        observeViewModel()
-    }
 
-    private fun observeViewModel() {
-        viewModel.errorInputCount.observe(this) {
-            val message = if (it) {
-                getString(R.string.error_message)
-            } else {
-                null
-            }
-            tilCount.error = message
-        }
-
-        viewModel.errorInputName.observe(this) {
-            val message = if (it) {
-                getString(R.string.error_message)
-            } else {
-                null
-            }
-            tilName.error = message
-        }
-
-        viewModel.shouldCloseScreen.observe(this) {
-            finish()
-        }
-    }
-
-    private fun launchEditMode() {
-
-        viewModel.getShopItem(shopItemId)
-        viewModel.shopItem.observe(this) {
-            etName.setText(it.name)
-            etCount.setText(it.count.toString())
-        }
-        buttonSave.setOnClickListener {
-            viewModel.editShopItem(etName.text?.toString(), etCount.text?.toString())
-
+        // если равен null то значит activity не пересоздавалась
+        // и мы запускаеи launchRightMode, иначе будет создаваться два раза (можно проверить в логе)
+        // при перевороте create создается один раз
+        if (savedInstanceState == null) {
+            launchRightMode()
         }
 
 
     }
 
-    private fun launchAddMode() {
-
-        buttonSave.setOnClickListener {
-            viewModel.addShopItem(etName.text?.toString(), etCount.text?.toString())
-        }
-
-    }
-
-    private fun initViews() {
-
-        tilName = findViewById(R.id.til_name)
-        tilCount = findViewById(R.id.til_count)
-        etName = findViewById(R.id.edit_text_name)
-        etCount = findViewById(R.id.edit_text_count)
-        buttonSave = findViewById(R.id.button_save)
-    }
 
     private fun parseIntent() {
         if (!intent.hasExtra(EXTRA_SCREEN_MODE)) {
@@ -111,43 +54,16 @@ class ShopItemActivity : AppCompatActivity() {
 
     }
 
-    private fun addChangeTextListeners() {
-        etName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                viewModel.resetErrorInputName()
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        etCount.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                viewModel.resetErrorInputCount()
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-    }
-
     private fun launchRightMode() {
-        when (screenMode) {
-            MODE_EDIT -> launchEditMode()
-            MODE_ADD -> launchAddMode()
+    val fragment = when (screenMode) {
+            MODE_EDIT -> ShopItemFragment.newInstanceEditItem(shopItemId)
+            MODE_ADD -> ShopItemFragment.newInstanceAddItem()
+            else     -> throw RuntimeException("Unknown screen mode $screenMode")
         }
+
+    supportFragmentManager.beginTransaction()
+        .replace(R.id.shop_item_container, fragment)
+        .commit()
     }
 
     companion object {

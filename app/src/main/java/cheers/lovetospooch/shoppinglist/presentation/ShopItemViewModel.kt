@@ -1,5 +1,6 @@
 package cheers.lovetospooch.shoppinglist.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -48,6 +49,7 @@ class ShopItemViewModel: ViewModel() {
             val shopItem = ShopItem(name, count, true)
             addToShopItemUseCase.addToShopItem(shopItem)
             finishWork()
+
         }
 
     }
